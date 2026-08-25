@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowDown, Compass, Sparkles, MapPin, Wind, Calendar } from 'lucide-react';
 import { Hero3DCanvas } from '../three/Hero3DCanvas';
 import { useLanguage } from '../../locales/LanguageContext';
+import HeroBanner from '../../assets/images/Hero_Banner.jpg';
 
 interface HeroSectionProps {
   onOpenTripPlanner: () => void;
@@ -22,7 +23,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=2000&auto=format&fit=crop"
+          src={HeroBanner}
           alt="Shimul Bagan Crimson Blossom Canopy in Tahirpur Sunamganj"
           className="w-full h-full object-cover object-center scale-105 filter brightness-[0.6] contrast-[1.1]"
         />
