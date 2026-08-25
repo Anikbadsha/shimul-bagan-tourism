@@ -1,0 +1,6 @@
+{
+  "name": "Shimul Bagan — Tahirpur, Sunamganj",
+  "description": "A premium 3D interactive editorial tourism experience and travel guide for Shimul Bagan, Jadukata River, Barek Tila, and Tanguar Haor in Sunamganj, Bangladesh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
