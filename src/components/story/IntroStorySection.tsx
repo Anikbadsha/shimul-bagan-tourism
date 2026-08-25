@@ -141,7 +141,7 @@ export const IntroStorySection: React.FC = () => {
                 <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold block">
                   {isBn ? 'বৃক্ষসংখ্যা' : 'TREES'}
                 </span>
-                <span className="text-lg font-bold text-rose-400 font-mono">{isBn ? '৩,০০০+' : '3,000+'}</span>
+                <span className="text-lg font-bold text-rose-400 font-mono">{isBn ? '১৮০০+' : '1,800+'}</span>
               </div>
             </div>
           </div>

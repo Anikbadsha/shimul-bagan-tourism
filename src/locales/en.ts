@@ -37,7 +37,7 @@ export const en = {
     founderIntro: 'In 2002, late visionary nature lover Alhaj Joynal Abedin began planting more than 3,000 crimson red silk-cotton (Shimul) saplings across 100 bighas of barren sandy soil along the Jadukata River in Manigaon village. Today, that enduring dream has blossomed into Bangladesh’s largest red blossom sanctuary.',
     statBigha: '100+',
     statBighaLabel: 'Bighas of Crimson Paradise',
-    statTrees: '3,000+',
+    statTrees: '1,800+',
     statTreesLabel: 'Symmetrically Planted Trees',
     statFounded: '2002',
     statFoundedLabel: 'Founded by Late Joynal Abedin',
