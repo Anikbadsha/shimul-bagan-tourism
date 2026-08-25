@@ -39,7 +39,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
       <div className="pt-28 md:pt-36" />
 
       {/* Hero Center Content: Crisp Executive Typography & Polish */}
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center my-auto py-12">
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-left my-auto py-12">
         {/* Top Tagline Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-white font-medium tracking-wide mb-6 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
