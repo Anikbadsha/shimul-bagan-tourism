@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './locales/LanguageContext';
 import { Navbar } from './components/layout/Navbar';
 import { HeroSection } from './components/hero/HeroSection';
@@ -18,8 +19,25 @@ import { Footer } from './components/layout/Footer';
 import { TripPlannerModal } from './components/planner/TripPlannerModal';
 import { CustomCursor } from './components/ui/CustomCursor';
 import { natureAudio } from './utils/audioSynth';
+import { useState } from 'react';
 
-export default function App() {
+// Admin imports
+import { AdminLayout } from './admin/components/AdminLayout';
+import { ProtectedRoute } from './admin/components/ProtectedRoute';
+import { AdminLogin } from './admin/pages/AdminLogin';
+import { Dashboard } from './admin/pages/Dashboard';
+import { InquiriesAdmin } from './admin/pages/InquiriesAdmin';
+import { TourPackagesAdmin } from './admin/pages/TourPackagesAdmin';
+import { HotelsAdmin } from './admin/pages/HotelsAdmin';
+import { GalleryAdmin } from './admin/pages/GalleryAdmin';
+import { BlogAdmin } from './admin/pages/BlogAdmin';
+import { FaqAdmin } from './admin/pages/FaqAdmin';
+import { CommunityAdmin } from './admin/pages/CommunityAdmin';
+import { FoodAdmin } from './admin/pages/FoodAdmin';
+import { DestinationsAdmin } from './admin/pages/DestinationsAdmin';
+import { AnalyticsAdmin } from './admin/pages/AnalyticsAdmin';
+
+function PublicSite() {
   const [isTripPlannerOpen, setIsTripPlannerOpen] = useState(false);
   const [selectedPackageForInquiry, setSelectedPackageForInquiry] = useState<string>('');
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -41,59 +59,26 @@ export default function App() {
   return (
     <LanguageProvider>
       <div className="relative min-h-screen bg-slate-950 text-slate-100 selection:bg-rose-600 selection:text-white font-sans antialiased overflow-x-hidden">
-        {/* Subtle Desktop Interactive Custom Cursor */}
         <CustomCursor />
-
-        {/* Floating Glass Navigation Bar */}
         <Navbar
           onOpenTripPlanner={() => handleOpenTripPlanner()}
           isAudioPlaying={isAudioPlaying}
           onToggleAudio={handleToggleAudio}
         />
-
-        {/* 1. Cinematic 3D WebGL Petal Canvas Hero Section */}
         <HeroSection onOpenTripPlanner={() => handleOpenTripPlanner()} />
-
-        {/* 2. Editorial Intro Story & Founder Tribute Section */}
         <IntroStorySection />
-
-        {/* 3. Botanical Wonder & Interactive 3D Tree Branch Viewer */}
         <FlowerSection />
-
-        {/* 4. Interactive 12-Month Seasonal Climate & Bloom Calendar */}
         <SeasonalTimeline />
-
-        {/* 5. Geospatial Interactive Map & Tahirpur Destinations */}
         <DestinationExplorer />
-
-        {/* 6. Step-by-Step Route Transit Guide & Budget Estimator */}
         <TravelGuideSection />
-
-        {/* 7. Categorized Masonry Photography Gallery & Lightbox */}
         <GalleryExperience />
-
-        {/* 8. Curated Tour Packages & Guided Expeditions */}
         <TourPackagesSection onSelectPackageForInquiry={(pkg) => handleOpenTripPlanner(pkg)} />
-
-        {/* 9. Verified Accommodations & Houseboats Directory */}
         <HotelDiscoverySection />
-
-        {/* 10. Local Food & Haor Freshwater Fish Delicacies */}
         <LocalFoodSection />
-
-        {/* 11. Editorial Stories & Historical Archives */}
         <FeaturedBlogSection />
-
-        {/* 12. Community Voices: People Behind the Place */}
         <CommunityVoicesSection />
-
-        {/* 13. Essential Travel FAQs Accordion */}
         <FaqSection />
-
-        {/* 14. Comprehensive Editorial Footer */}
         <Footer />
-
-        {/* 15. Interactive Trip Planner & Inquiry Modal */}
         <TripPlannerModal
           isOpen={isTripPlannerOpen}
           onClose={() => setIsTripPlannerOpen(false)}
@@ -101,5 +86,44 @@ export default function App() {
         />
       </div>
     </LanguageProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Public website */}
+        <Route path="/" element={<PublicSite />} />
+
+        {/* Admin login (no auth required) */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* Protected admin routes */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="inquiries" element={<InquiriesAdmin />} />
+          <Route path="tours" element={<TourPackagesAdmin />} />
+          <Route path="hotels" element={<HotelsAdmin />} />
+          <Route path="gallery" element={<GalleryAdmin />} />
+          <Route path="blog" element={<BlogAdmin />} />
+          <Route path="faq" element={<FaqAdmin />} />
+          <Route path="community" element={<CommunityAdmin />} />
+          <Route path="food" element={<FoodAdmin />} />
+          <Route path="destinations" element={<DestinationsAdmin />} />
+          <Route path="analytics" element={<AnalyticsAdmin />} />
+        </Route>
+
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
