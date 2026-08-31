@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Clock, Calendar, ArrowRight, User, X, Share2, Check } from 'lucide-react';
 import { storiesData } from '../../data/stories';
+import { useLiveData } from '../../hooks/useLiveData';
 import { BlogPost } from '../../types';
 import { useLanguage } from '../../locales/LanguageContext';
 
@@ -8,6 +9,7 @@ export const FeaturedBlogSection: React.FC = () => {
   const { t, isBn } = useLanguage();
   const [selectedArticle, setSelectedArticle] = useState<BlogPost | null>(null);
   const [copied, setCopied] = useState(false);
+  const allStories = useLiveData<any>('blog_posts', storiesData);
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -38,7 +40,7 @@ export const FeaturedBlogSection: React.FC = () => {
 
         {/* Blog Article Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {storiesData.map((story) => (
+          {allStories.map((story) => (
             <div
               key={story.id}
               onClick={() => setSelectedArticle(story)}

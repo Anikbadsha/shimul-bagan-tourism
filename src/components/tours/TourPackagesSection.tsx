@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Sparkles, Clock, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { tourPackagesData as fallbackData } from '../../data/tours';
 import { useLanguage } from '../../locales/LanguageContext';
-import { supabase } from '../../admin/lib/supabase';
+import { useLiveData } from '../../hooks/useLiveData';
 
 interface TourPackagesSectionProps {
   onSelectPackageForInquiry: (packageName: string) => void;
@@ -12,47 +12,7 @@ export const TourPackagesSection: React.FC<TourPackagesSectionProps> = ({
   onSelectPackageForInquiry
 }) => {
   const { t, isBn } = useLanguage();
-  const [packages, setPackages] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchTours() {
-      try {
-        const { data, error } = await supabase
-          .from('tour_packages')
-          .select('*')
-          .order('created_at', { ascending: false });
-        
-        if (error || !data || data.length === 0) {
-          setPackages(fallbackData);
-        } else {
-          // Map Supabase rows to match the expected format roughly, or just use the rows
-          const mappedData = data.map(row => ({
-            id: row.id,
-            titleBn: row.title_bn,
-            titleEn: row.title_en,
-            subtitleBn: row.description_bn,
-            subtitleEn: row.description_en,
-            durationBn: row.duration_bn,
-            durationEn: row.duration_en,
-            priceNoteBn: row.price_bn,
-            priceNoteEn: row.price_en,
-            tagBn: row.category,
-            tagEn: row.category,
-            destinations: row.features_en || [], // temporary fallback
-            inclusionsBn: row.features_bn || [],
-            inclusionsEn: row.features_en || [],
-          }));
-          setPackages(mappedData.length > 0 ? mappedData : fallbackData);
-        }
-      } catch (err) {
-        setPackages(fallbackData);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchTours();
-  }, []);
+  const packages = useLiveData<any>('tour_packages', fallbackData);
 
   return (
     <section id="packages" className="relative w-full py-20 lg:py-24 bg-white text-slate-900 border-b border-slate-200 bg-grid-pattern">
@@ -74,12 +34,7 @@ export const TourPackagesSection: React.FC<TourPackagesSectionProps> = ({
         </div>
 
         {/* Tour Package Cards Grid */}
-        {loading ? (
-          <div className="flex justify-center py-10">
-            <div className="w-8 h-8 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
@@ -158,7 +113,6 @@ export const TourPackagesSection: React.FC<TourPackagesSectionProps> = ({
               </div>
             ))}
           </div>
-        )}
       </div>
     </section>
   );

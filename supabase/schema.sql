@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS public.trip_inquiries (
     phone VARCHAR(50),
     guests INTEGER NOT NULL,
     date VARCHAR(255) NOT NULL,
-    inquiry_type VARCHAR(50) NOT NULL, -- 'general', 'tour_package', 'hotel'
+    inquiry_type VARCHAR(50) NOT NULL,
     package_name VARCHAR(255),
     message TEXT,
-    status VARCHAR(50) DEFAULT 'new' -- 'new', 'read', 'replied', 'archived'
+    status VARCHAR(50) DEFAULT 'new'
 );
 
 -- 2. Tour Packages
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS public.gallery_items (
     url TEXT NOT NULL,
     caption_en TEXT,
     caption_bn TEXT,
-    category VARCHAR(50) NOT NULL -- 'spring', 'monsoon', 'culture', 'landscape', 'activities'
+    category VARCHAR(50) NOT NULL
 );
 
 -- 5. Blog Posts
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS public.faq_items (
     question_bn TEXT NOT NULL,
     answer_en TEXT NOT NULL,
     answer_bn TEXT NOT NULL,
-    category VARCHAR(50) NOT NULL -- 'general', 'transport', 'timing', 'stay', 'photography'
+    category VARCHAR(50) NOT NULL
 );
 
 -- 7. Community Stories
@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS public.destinations (
     subtitle_bn VARCHAR(255) NOT NULL,
     description_en TEXT NOT NULL,
     description_bn TEXT NOT NULL,
-    category VARCHAR(50) NOT NULL, -- 'garden', 'river', 'hills', 'lake', 'wetland', 'heritage'
+    category VARCHAR(50) NOT NULL,
     image_url TEXT NOT NULL,
     gallery_images TEXT[],
     distance_from_garden_en VARCHAR(100),
@@ -175,12 +175,7 @@ CREATE TABLE IF NOT EXISTS public.destinations (
     history_bn TEXT
 );
 
--- Row Level Security (RLS) Settings
--- Since this is an admin panel for an open public site, we will allow read access to everyone
--- but restrict write access to authenticated users (i.e. Admins).
--- NOTE: For trip_inquiries, we need to allow anonymous users to INSERT, but only admins to READ/UPDATE.
-
--- Enable RLS on all tables
+-- Row Level Security (RLS)
 ALTER TABLE public.trip_inquiries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.tour_packages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.hotels ENABLE ROW LEVEL SECURITY;
@@ -191,15 +186,13 @@ ALTER TABLE public.community_stories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.local_foods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.destinations ENABLE ROW LEVEL SECURITY;
 
--- Create Policies
+-- Policies for trip_inquiries (anon can insert, authenticated can read/update/delete)
+CREATE POLICY "Anyone can insert inquiries" ON public.trip_inquiries FOR INSERT WITH CHECK (true);
+CREATE POLICY "Authenticated can read inquiries" ON public.trip_inquiries FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Authenticated can update inquiries" ON public.trip_inquiries FOR UPDATE TO authenticated USING (true);
+CREATE POLICY "Authenticated can delete inquiries" ON public.trip_inquiries FOR DELETE TO authenticated USING (true);
 
--- 1. Trip Inquiries: Anyone can insert, only authenticated can read/update/delete
-CREATE POLICY "Enable insert for all users" ON public.trip_inquiries FOR INSERT WITH CHECK (true);
-CREATE POLICY "Enable read for authenticated users" ON public.trip_inquiries FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "Enable update for authenticated users" ON public.trip_inquiries FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Enable delete for authenticated users" ON public.trip_inquiries FOR DELETE USING (auth.role() = 'authenticated');
-
--- 2. Other Tables: Anyone can read, only authenticated can insert/update/delete
+-- Policies for content tables (anyone can read, authenticated can write)
 DO $$
 DECLARE
     t_name text;
@@ -209,10 +202,14 @@ BEGIN
         'faq_items', 'community_stories', 'local_foods', 'destinations'
     ])
     LOOP
-        EXECUTE format('CREATE POLICY "Enable read for all users" ON public.%I FOR SELECT USING (true)', t_name);
-        EXECUTE format('CREATE POLICY "Enable insert for authenticated users" ON public.%I FOR INSERT WITH CHECK (auth.role() = ''authenticated'')', t_name);
-        EXECUTE format('CREATE POLICY "Enable update for authenticated users" ON public.%I FOR UPDATE USING (auth.role() = ''authenticated'')', t_name);
-        EXECUTE format('CREATE POLICY "Enable delete for authenticated users" ON public.%I FOR DELETE USING (auth.role() = ''authenticated'')', t_name);
+        EXECUTE format('CREATE POLICY "Anyone can read %I" ON public.%I FOR SELECT USING (true)', t_name, t_name);
+        EXECUTE format('CREATE POLICY "Authenticated can insert %I" ON public.%I FOR INSERT TO authenticated WITH CHECK (true)', t_name, t_name);
+        EXECUTE format('CREATE POLICY "Authenticated can update %I" ON public.%I FOR UPDATE TO authenticated USING (true)', t_name, t_name);
+        EXECUTE format('CREATE POLICY "Authenticated can delete %I" ON public.%I FOR DELETE TO authenticated USING (true)', t_name, t_name);
     END LOOP;
 END;
 $$;
+
+-- Grant access for Data API
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT INSERT, UPDATE, DELETE ON TABLES TO authenticated;

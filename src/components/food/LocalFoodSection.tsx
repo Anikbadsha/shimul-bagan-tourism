@@ -1,10 +1,12 @@
 import React from 'react';
 import { Utensils, MapPin, Flame } from 'lucide-react';
 import { foodData } from '../../data/food';
+import { useLiveData } from '../../hooks/useLiveData';
 import { useLanguage } from '../../locales/LanguageContext';
 
 export const LocalFoodSection: React.FC = () => {
   const { t, isBn } = useLanguage();
+  const allFoods = useLiveData<any>('local_foods', foodData);
 
   return (
     <section id="food" className="relative w-full py-20 lg:py-24 bg-slate-50 text-slate-900 border-b border-slate-200 bg-grid-pattern">
@@ -27,7 +29,7 @@ export const LocalFoodSection: React.FC = () => {
 
         {/* Food Cards 4-Column Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {foodData.map((item) => (
+          {allFoods.map((item) => (
             <div
               key={item.id}
               className="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-2xs hover:border-slate-300 hover:shadow-xs transition-all duration-200 flex flex-col justify-between group"

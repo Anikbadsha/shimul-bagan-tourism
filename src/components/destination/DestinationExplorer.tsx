@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, ArrowRight, CheckCircle2, Compass } from 'lucide-react';
 import { destinationsData } from '../../data/destinations';
+import { useLiveData } from '../../hooks/useLiveData';
 import { Destination } from '../../types';
 import { InteractiveMapCanvas } from './InteractiveMapCanvas';
 import { useLanguage } from '../../locales/LanguageContext';
@@ -8,6 +9,7 @@ import { useLanguage } from '../../locales/LanguageContext';
 export const DestinationExplorer: React.FC = () => {
   const { t, isBn } = useLanguage();
   const [selectedDestination, setSelectedDestination] = useState<Destination>(destinationsData[0]);
+  const allDestinations = useLiveData<any>("destinations", destinationsData);
 
   return (
     <section id="destinations" className="relative w-full py-20 lg:py-24 bg-slate-900 text-white border-b border-slate-800 bg-grid-pattern-dark">
@@ -38,7 +40,7 @@ export const DestinationExplorer: React.FC = () => {
 
         {/* 2. Storytelling Destination Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {destinationsData.map((dest, index) => {
+          {allDestinations.map((dest, index) => {
             const isSelected = dest.id === selectedDestination.id;
             return (
               <div

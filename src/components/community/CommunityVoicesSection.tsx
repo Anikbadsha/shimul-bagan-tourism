@@ -1,10 +1,12 @@
 import React from 'react';
 import { Heart, Quote, MapPin, Award } from 'lucide-react';
 import { communityStories } from '../../data/community';
+import { useLiveData } from '../../hooks/useLiveData';
 import { useLanguage } from '../../locales/LanguageContext';
 
 export const CommunityVoicesSection: React.FC = () => {
   const { t, isBn } = useLanguage();
+  const allCommunity = useLiveData<any>('community_stories', communityStories);
 
   return (
     <section className="relative w-full py-20 lg:py-24 bg-slate-50 text-slate-900 border-b border-slate-200 bg-grid-pattern">
@@ -27,7 +29,7 @@ export const CommunityVoicesSection: React.FC = () => {
 
         {/* 3 People Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {communityStories.map((person) => (
+          {allCommunity.map((person) => (
             <div
               key={person.id}
               className="bg-white rounded-xl p-6 border border-slate-200 shadow-2xs hover:border-slate-300 hover:shadow-xs transition-all duration-200 flex flex-col justify-between group"

@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { Star, MapPin, CheckCircle2, Home } from 'lucide-react';
 import { hotelsData } from '../../data/hotels';
 import { useLanguage } from '../../locales/LanguageContext';
+import { useLiveData } from '../../hooks/useLiveData';
 
 export const HotelDiscoverySection: React.FC = () => {
   const { t, isBn } = useLanguage();
   const [filterCategory, setFilterCategory] = useState<string>('all');
+  const allHotels = useLiveData<any>('hotels', hotelsData);
 
   const filteredHotels = filterCategory === 'all'
-    ? hotelsData
-    : hotelsData.filter((h) => h.priceCategory === filterCategory);
+    ? allHotels
+    : allHotels.filter((h: any) => (h.priceCategory || h.price_category) === filterCategory);
 
   return (
     <section id="hotels" className="relative w-full py-20 lg:py-24 bg-slate-900 text-white border-b border-slate-800 bg-grid-pattern-dark">

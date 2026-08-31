@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Camera, X, ChevronLeft, ChevronRight, MapPin, User, Maximize2 } from 'lucide-react';
 import { galleryData } from '../../data/gallery';
+import { useLiveData } from '../../hooks/useLiveData';
 import { useLanguage } from '../../locales/LanguageContext';
 
 export const GalleryExperience: React.FC = () => {
   const { t, isBn } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
+  const allGallery = useLiveData<any>('gallery_items', galleryData);
 
   const categories = [
     { id: 'all', label: t.gallery.filterAll },
@@ -19,8 +21,8 @@ export const GalleryExperience: React.FC = () => {
   ];
 
   const filteredItems = selectedCategory === 'all'
-    ? galleryData
-    : galleryData.filter((item) => item.category === selectedCategory);
+    ? allGallery
+    : allGallery.filter((item: any) => item.category === selectedCategory);
 
   // Keyboard navigation for Lightbox
   useEffect(() => {

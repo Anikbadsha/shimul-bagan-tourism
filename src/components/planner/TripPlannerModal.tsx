@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Sparkles, Send, CheckCircle2, Calendar, Users, Phone, Mail, User, Compass } from 'lucide-react';
 import { TripInquiryForm } from '../../types';
 import { useLanguage } from '../../locales/LanguageContext';
+import { submitTripInquiry } from '../../hooks/useLiveData';
 
 interface TripPlannerModalProps {
   isOpen: boolean;
@@ -32,23 +33,34 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate verified API handler response
-    setTimeout(() => {
+    try {
+      await submitTripInquiry({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        guests: parseInt(formData.travelersCount) || 2,
+        date: formData.travelDate,
+        inquiry_type: formData.inquiryType,
+        package_name: formData.selectedPackage || '',
+        message: formData.message
+      });
       setIsSubmitting(false);
       setIsSuccess(true);
-      // Save inquiry to local storage for persistence
+    } catch (err) {
+      console.error('Submit error', err);
+      // Fallback to localStorage
       try {
-        const existingInquiries = JSON.parse(localStorage.getItem('shimul_bagan_inquiries') || '[]');
-        existingInquiries.push({ ...formData, submittedAt: new Date().toISOString() });
-        localStorage.setItem('shimul_bagan_inquiries', JSON.stringify(existingInquiries));
-      } catch (err) {
-        console.error('Storage error', err);
-      }
-    }, 900);
+        const existing = JSON.parse(localStorage.getItem('shimul_bagan_inquiries') || '[]');
+        existing.push({ ...formData, submittedAt: new Date().toISOString() });
+        localStorage.setItem('shimul_bagan_inquiries', JSON.stringify(existing));
+      } catch {}
+      setIsSubmitting(false);
+      setIsSuccess(true);
+    }
   };
 
   return (

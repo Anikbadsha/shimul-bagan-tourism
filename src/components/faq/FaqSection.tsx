@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import { faqsData } from '../../data/community';
+import { useLiveData } from '../../hooks/useLiveData';
 import { useLanguage } from '../../locales/LanguageContext';
 
 export const FaqSection: React.FC = () => {
   const { t, isBn } = useLanguage();
-  const [openIndex, setOpenIndex] = useState<number | null>(0); // First open by default
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const allFaqs = useLiveData<any>('faq_items', faqsData);
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -32,7 +34,7 @@ export const FaqSection: React.FC = () => {
 
         {/* Accordion List */}
         <div className="space-y-3">
-          {faqsData.map((faq, index) => {
+          {allFaqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
               <div
