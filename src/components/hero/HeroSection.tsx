@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowDown, Compass, Sparkles, MapPin, Wind, Calendar } from 'lucide-react';
 import { Hero3DCanvas } from '../three/Hero3DCanvas';
 import { useLanguage } from '../../locales/LanguageContext';
-import HeroBanner from '../../assets/images/Hero_Banner.jpg';
+import HeroBanner from '../../assets/images/Hero_Banner.png';
 
 interface HeroSectionProps {
   onOpenTripPlanner: () => void;
