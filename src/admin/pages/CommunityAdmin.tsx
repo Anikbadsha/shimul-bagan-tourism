@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase, CommunityStoryRow } from '../lib/supabase';
+import { ImageUpload } from "../components/ImageUpload";
 
 type FormData = Omit<CommunityStoryRow, 'created_at' | 'updated_at'>;
 

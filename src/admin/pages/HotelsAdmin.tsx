@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase, HotelRow } from '../lib/supabase';
+import { ImageUpload } from "../components/ImageUpload";
 
 type FormData = Omit<HotelRow, 'created_at' | 'updated_at'>;
 function arrayField(value: string[]): string { return value.join('\n'); }

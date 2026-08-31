@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase, LocalFoodRow } from '../lib/supabase';
+import { ImageUpload } from "../components/ImageUpload";
 
 type FormData = Omit<LocalFoodRow, 'created_at' | 'updated_at'>;
 
@@ -86,10 +87,7 @@ export function FoodAdmin() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
               {previewUrl && <img src={previewUrl} alt="Preview" className="w-full h-40 object-cover rounded-xl bg-slate-800" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />}
-              <div>
-                <label className="block text-xs text-slate-400 mb-1">Image URL</label>
-                <input {...register('image_url')} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500" />
-              </div>
+              <ImageUpload value={watch('image_url') || ''} onChange={(url) => reset({...watch(), image_url: url})} folder="food" label="Food Photo" />
               <div className="grid grid-cols-2 gap-4">
                 {[
                   ['name_en', 'Name (English)'], ['name_bn', 'Name (Bengali)'],

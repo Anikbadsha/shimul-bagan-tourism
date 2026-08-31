@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase, GalleryItemRow } from '../lib/supabase';
+import { ImageUpload } from '../components/ImageUpload';
 
-type FormData = Omit<GalleryItemRow, 'created_at' | 'updated_at'>;
+type FormData = { id: string; url: string; title_en: string; title_bn: string; location_en: string; location_bn: string; caption_en: string; caption_bn: string; photographer: string; category: string; aspect_ratio: string; };
 
 const categories = ['all', 'shimul', 'nature', 'jadukata', 'mountains', 'tahirpur', 'travel', 'people'];
 
@@ -43,7 +44,7 @@ export function GalleryAdmin() {
   };
 
   const filtered = filterCat === 'all' ? items : items.filter(i => i.category === filterCat);
-  const previewUrl = watch('image_url');
+  const previewUrl = watch('url');
 
   return (
     <div className="space-y-6">
@@ -65,7 +66,7 @@ export function GalleryAdmin() {
           {filtered.map(item => (
             <div key={item.id} className="group relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all">
               <div className="aspect-square bg-slate-800">
-                <img src={item.image_url} alt={item.title_en} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23334155" width="100" height="100"/><text x="50" y="55" text-anchor="middle" fill="%2364748b" font-size="30">🖼️</text></svg>'; }} />
+                <img src={item.url} alt={item.title_en} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23334155" width="100" height="100"/><text x="50" y="55" text-anchor="middle" fill="%2364748b" font-size="30">🖼️</text></svg>'; }} />
               </div>
               <div className="p-3">
                 <p className="text-sm font-medium text-white truncate">{item.title_en}</p>
@@ -94,12 +95,13 @@ export function GalleryAdmin() {
               <button onClick={() => setShowForm(false)} className="text-slate-400 hover:text-white text-xl">×</button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
-              {previewUrl && (
-                <img src={previewUrl} alt="Preview" className="w-full h-48 object-cover rounded-xl bg-slate-800" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-              )}
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Image URL</label>
-                <input {...register('image_url', { required: true })} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500" placeholder="https://..." />
+                <ImageUpload
+                  value={previewUrl || ''}
+                  onChange={(url) => { reset({ ...watch(), url }); }}
+                  folder="gallery"
+                  label="Gallery Photo"
+                />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {[['title_en', 'Title (English)'], ['title_bn', 'Title (Bengali)'], ['location_en', 'Location (English)'], ['location_bn', 'Location (Bengali)'], ['caption_en', 'Caption (English)'], ['caption_bn', 'Caption (Bengali)'], ['photographer', 'Photographer']].map(([name, label]) => (

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase, DestinationRow } from '../lib/supabase';
+import { ImageUpload } from "../components/ImageUpload";
 
 type FormData = Omit<DestinationRow, 'created_at' | 'updated_at'>;
 function parseArray(v: string): string[] { return v.split('\n').map(s => s.trim()).filter(Boolean); }
