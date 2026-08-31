@@ -5,14 +5,11 @@ import { supabase, TourPackageRow } from '../lib/supabase';
 type FormData = Omit<TourPackageRow, 'created_at' | 'updated_at'>;
 
 const emptyForm: Omit<FormData, 'id'> = {
-  title_bn: '', title_en: '', subtitle_bn: '', subtitle_en: '',
-  duration_bn: '', duration_en: '', destinations: [],
-  highlights_bn: [], highlights_en: [],
-  inclusions_bn: [], inclusions_en: [],
-  exclusions_bn: [], exclusions_en: [],
-  ideal_for_bn: '', ideal_for_en: '',
-  price_note_bn: '', price_note_en: '',
-  tag_bn: null, tag_en: null,
+  title_bn: '', title_en: '', description_bn: '', description_en: '',
+  duration_bn: '', duration_en: '',
+  price_bn: '', price_en: '', image_url: '',
+  features_bn: [], features_en: [],
+  popular: false, category: '',
 };
 
 function arrayField(value: string[]): string { return value.join('\n'); }
@@ -96,13 +93,13 @@ export function TourPackagesAdmin() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-semibold text-white truncate">{item.title_en}</h3>
-                  {item.tag_en && (
+                  {item.category && (
                     <span className="text-xs px-2 py-0.5 rounded-full bg-rose-600/20 text-rose-400 border border-rose-600/30 flex-shrink-0">
-                      {item.tag_en}
+                      {item.category}
                     </span>
                   )}
                 </div>
-                <p className="text-slate-400 text-sm truncate">{item.subtitle_en}</p>
+                <p className="text-slate-400 text-sm truncate">{item.description_en}</p>
                 <p className="text-slate-500 text-xs mt-1">⏱ {item.duration_en}</p>
               </div>
               <div className="flex gap-2 flex-shrink-0">
@@ -144,16 +141,14 @@ export function TourPackagesAdmin() {
                 {[
                   ['title_en', 'Title (English)', true],
                   ['title_bn', 'Title (Bengali)', true],
-                  ['subtitle_en', 'Subtitle (English)', true],
-                  ['subtitle_bn', 'Subtitle (Bengali)', true],
+                  ['description_en', 'Description (English)', true],
+                  ['description_bn', 'Description (Bengali)', true],
                   ['duration_en', 'Duration (English)', true],
                   ['duration_bn', 'Duration (Bengali)', true],
-                  ['ideal_for_en', 'Ideal For (English)', true],
-                  ['ideal_for_bn', 'Ideal For (Bengali)', true],
-                  ['price_note_en', 'Price Note (English)', true],
-                  ['price_note_bn', 'Price Note (Bengali)', true],
-                  ['tag_en', 'Tag (English, optional)', false],
-                  ['tag_bn', 'Tag (Bengali, optional)', false],
+                  ['price_en', 'Price (English)', true],
+                  ['price_bn', 'Price (Bengali)', true],
+                  ['image_url', 'Image URL', false],
+                  ['category', 'Category', false],
                 ].map(([name, label, required]) => (
                   <div key={name as string}>
                     <label className="block text-xs text-slate-400 mb-1">{label as string}</label>
@@ -167,13 +162,8 @@ export function TourPackagesAdmin() {
 
               {/* Array fields */}
               {[
-                ['destinations', 'Destinations (one per line)'],
-                ['highlights_en', 'Highlights English (one per line)'],
-                ['highlights_bn', 'Highlights Bengali (one per line)'],
-                ['inclusions_en', 'Inclusions English (one per line)'],
-                ['inclusions_bn', 'Inclusions Bengali (one per line)'],
-                ['exclusions_en', 'Exclusions English (one per line)'],
-                ['exclusions_bn', 'Exclusions Bengali (one per line)'],
+                ['features_en', 'Features English (one per line)'],
+                ['features_bn', 'Features Bengali (one per line)'],
               ].map(([name, label]) => (
                 <div key={name}>
                   <label className="block text-xs text-slate-400 mb-1">{label}</label>

@@ -29,23 +29,17 @@ export interface TourPackageRow {
   id: string;
   title_bn: string;
   title_en: string;
-  subtitle_bn: string;
-  subtitle_en: string;
+  description_bn: string;
+  description_en: string;
   duration_bn: string;
   duration_en: string;
-  destinations: string[];
-  highlights_bn: string[];
-  highlights_en: string[];
-  inclusions_bn: string[];
-  inclusions_en: string[];
-  exclusions_bn: string[];
-  exclusions_en: string[];
-  ideal_for_bn: string;
-  ideal_for_en: string;
-  price_note_bn: string;
-  price_note_en: string;
-  tag_bn: string | null;
-  tag_en: string | null;
+  price_bn: string;
+  price_en: string;
+  image_url: string;
+  features_bn: string[];
+  features_en: string[];
+  popular: boolean;
+  category: string;
   created_at: string;
   updated_at: string;
 }
@@ -54,21 +48,18 @@ export interface HotelRow {
   id: string;
   name_bn: string;
   name_en: string;
-  location_bn: string;
-  location_en: string;
-  stay_type_bn: string;
-  stay_type_en: string;
-  price_category: 'budget' | 'mid' | 'premium';
-  price_indicator_bn: string;
-  price_indicator_en: string;
+  type_bn: string;
+  type_en: string;
+  distance_bn: string;
+  distance_en: string;
+  price_bn: string;
+  price_en: string;
   rating: number;
-  distance_to_shimul_bn: string;
-  distance_to_shimul_en: string;
+  reviews: number;
+  image_url: string;
   amenities_bn: string[];
   amenities_en: string[];
-  image_url: string;
-  contact_note_bn: string;
-  contact_note_en: string;
+  phone: string;
   created_at: string;
   updated_at: string;
 }
@@ -100,16 +91,10 @@ export interface BlogPostRow {
 
 export interface GalleryItemRow {
   id: string;
-  title_bn: string;
-  title_en: string;
-  category: string;
-  image_url: string;
-  location_bn: string;
-  location_en: string;
-  caption_bn: string;
+  url: string;
   caption_en: string;
-  photographer: string;
-  aspect_ratio: 'landscape' | 'portrait' | 'square';
+  caption_bn: string;
+  category: string;
   created_at: string;
   updated_at: string;
 }

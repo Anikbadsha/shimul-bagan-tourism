@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { supabase, GalleryItemRow } from '../lib/supabase';
 import { ImageUpload } from '../components/ImageUpload';
 
-type FormData = { id: string; url: string; title_en: string; title_bn: string; location_en: string; location_bn: string; caption_en: string; caption_bn: string; photographer: string; category: string; aspect_ratio: string; };
+type FormData = { id: string; url: string; caption_en: string; caption_bn: string; category: string; };
 
 const categories = ['all', 'shimul', 'nature', 'jadukata', 'mountains', 'tahirpur', 'travel', 'people'];
 
@@ -24,7 +24,7 @@ export function GalleryAdmin() {
 
   useEffect(() => { fetchItems(); }, []);
 
-  const openNew = () => { reset({ id: crypto.randomUUID(), category: 'shimul', aspect_ratio: 'landscape' }); setEditing(null); setShowForm(true); };
+  const openNew = () => { reset({ id: crypto.randomUUID(), category: 'shimul' }); setEditing(null); setShowForm(true); };
   const openEdit = (item: GalleryItemRow) => { reset(item); setEditing(item); setShowForm(true); };
 
   const onSubmit = async (data: FormData) => {
@@ -66,11 +66,11 @@ export function GalleryAdmin() {
           {filtered.map(item => (
             <div key={item.id} className="group relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all">
               <div className="aspect-square bg-slate-800">
-                <img src={item.url} alt={item.title_en} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23334155" width="100" height="100"/><text x="50" y="55" text-anchor="middle" fill="%2364748b" font-size="30">🖼️</text></svg>'; }} />
+                <img src={item.url} alt={item.caption_en} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23334155" width="100" height="100"/><text x="50" y="55" text-anchor="middle" fill="%2364748b" font-size="30">🖼️</text></svg>'; }} />
               </div>
               <div className="p-3">
-                <p className="text-sm font-medium text-white truncate">{item.title_en}</p>
-                <p className="text-slate-500 text-xs">{item.category} · {item.aspect_ratio}</p>
+                <p className="text-sm font-medium text-white truncate">{item.caption_en}</p>
+                <p className="text-slate-500 text-xs">{item.category}</p>
               </div>
               <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button onClick={() => openEdit(item)} className="p-1.5 bg-slate-900/90 rounded-lg text-xs hover:bg-slate-800">✏️</button>
@@ -104,7 +104,7 @@ export function GalleryAdmin() {
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
-                {[['title_en', 'Title (English)'], ['title_bn', 'Title (Bengali)'], ['location_en', 'Location (English)'], ['location_bn', 'Location (Bengali)'], ['caption_en', 'Caption (English)'], ['caption_bn', 'Caption (Bengali)'], ['photographer', 'Photographer']].map(([name, label]) => (
+                {[['caption_en', 'Caption (English)'], ['caption_bn', 'Caption (Bengali)']].map(([name, label]) => (
                   <div key={name}>
                     <label className="block text-xs text-slate-400 mb-1">{label}</label>
                     <input {...register(name as keyof FormData)} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500" />
@@ -114,14 +114,6 @@ export function GalleryAdmin() {
                   <label className="block text-xs text-slate-400 mb-1">Category</label>
                   <select {...register('category')} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500">
                     {categories.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-400 mb-1">Aspect Ratio</label>
-                  <select {...register('aspect_ratio')} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500">
-                    <option value="landscape">Landscape</option>
-                    <option value="portrait">Portrait</option>
-                    <option value="square">Square</option>
                   </select>
                 </div>
               </div>

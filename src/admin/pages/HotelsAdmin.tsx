@@ -23,7 +23,7 @@ export function HotelsAdmin() {
 
   useEffect(() => { fetchItems(); }, []);
 
-  const openNew = () => { reset({ id: crypto.randomUUID(), rating: 4.0, price_category: 'budget', amenities_bn: [], amenities_en: [] }); setEditing(null); setShowForm(true); };
+  const openNew = () => { reset({ id: crypto.randomUUID(), rating: 4.0, reviews: 0, amenities_bn: [], amenities_en: [], phone: '' }); setEditing(null); setShowForm(true); };
   const openEdit = (item: HotelRow) => { reset(item); setEditing(item); setShowForm(true); };
 
   const onSubmit = async (data: FormData) => {
@@ -40,12 +40,6 @@ export function HotelsAdmin() {
     if (!confirm('Delete this hotel?')) return;
     await supabase.from('hotels').delete().eq('id', id);
     setItems(prev => prev.filter(i => i.id !== id));
-  };
-
-  const priceCategoryColors: Record<string, string> = {
-    budget: 'bg-emerald-600/20 text-emerald-400 border-emerald-600/30',
-    mid: 'bg-blue-600/20 text-blue-400 border-blue-600/30',
-    premium: 'bg-orange-600/20 text-orange-400 border-orange-600/30',
   };
 
   return (
@@ -67,10 +61,10 @@ export function HotelsAdmin() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-semibold text-white truncate">{item.name_en}</h3>
-                  <span className={`text-xs px-2 py-0.5 rounded-full border capitalize ${priceCategoryColors[item.price_category]}`}>{item.price_category}</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 border border-slate-600">{item.type_en}</span>
                 </div>
-                <p className="text-slate-400 text-sm">📍 {item.location_en}</p>
-                <p className="text-slate-500 text-xs mt-1">⭐ {item.rating} · {item.price_indicator_en}</p>
+                <p className="text-slate-400 text-sm">📍 {item.distance_en}</p>
+                <p className="text-slate-500 text-xs mt-1">⭐ {item.rating} · {item.price_en}</p>
               </div>
               <div className="flex gap-2 flex-shrink-0 self-start">
                 <button onClick={() => openEdit(item)} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition-all">✏️ Edit</button>
@@ -99,32 +93,22 @@ export function HotelsAdmin() {
                 {[
                   ['name_en', 'Name (English)', 'text'],
                   ['name_bn', 'Name (Bengali)', 'text'],
-                  ['location_en', 'Location (English)', 'text'],
-                  ['location_bn', 'Location (Bengali)', 'text'],
-                  ['stay_type_en', 'Stay Type (English)', 'text'],
-                  ['stay_type_bn', 'Stay Type (Bengali)', 'text'],
-                  ['price_indicator_en', 'Price (English)', 'text'],
-                  ['price_indicator_bn', 'Price (Bengali)', 'text'],
-                  ['distance_to_shimul_en', 'Distance (English)', 'text'],
-                  ['distance_to_shimul_bn', 'Distance (Bengali)', 'text'],
-                  ['contact_note_en', 'Contact Note (English)', 'text'],
-                  ['contact_note_bn', 'Contact Note (Bengali)', 'text'],
+                  ['type_en', 'Stay Type (English)', 'text'],
+                  ['type_bn', 'Stay Type (Bengali)', 'text'],
+                  ['distance_en', 'Distance (English)', 'text'],
+                  ['distance_bn', 'Distance (Bengali)', 'text'],
+                  ['price_en', 'Price (English)', 'text'],
+                  ['price_bn', 'Price (Bengali)', 'text'],
                   ['image_url', 'Image URL', 'url'],
                   ['rating', 'Rating (1-5)', 'number'],
+                  ['reviews', 'Reviews', 'number'],
+                  ['phone', 'Phone', 'text'],
                 ].map(([name, label, type]) => (
                   <div key={name as string}>
                     <label className="block text-xs text-slate-400 mb-1">{label as string}</label>
                     <input {...register(name as keyof FormData)} type={type as string} step={type === 'number' ? '0.1' : undefined} min={type === 'number' ? '1' : undefined} max={type === 'number' ? '5' : undefined} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500" />
                   </div>
                 ))}
-              </div>
-              <div>
-                <label className="block text-xs text-slate-400 mb-1">Price Category</label>
-                <select {...register('price_category')} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500">
-                  <option value="budget">Budget</option>
-                  <option value="mid">Mid-range</option>
-                  <option value="premium">Premium</option>
-                </select>
               </div>
               {[
                 ['amenities_en', 'Amenities (English, one per line)'],
