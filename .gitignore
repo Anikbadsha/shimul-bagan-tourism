@@ -7,3 +7,4 @@ coverage/
 .env*
 !.env.example
 shimul-bagan-deploy.zip
+.env

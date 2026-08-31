@@ -51,7 +51,6 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
       setIsSubmitting(false);
       setIsSuccess(true);
     } catch (err) {
-      console.error('Submit error', err);
       // Fallback to localStorage
       try {
         const existing = JSON.parse(localStorage.getItem('shimul_bagan_inquiries') || '[]');
