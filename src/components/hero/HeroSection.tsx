@@ -39,7 +39,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
       <div className="pt-28 md:pt-36" />
 
       {/* Hero Center Content: Crisp Executive Typography & Polish */}
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-left my-auto py-12">
+      <div className="relative z-20 max-w-3xl px-4 sm:px-6 lg:px-8 text-left my-auto py-12">
         {/* Top Tagline Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-white font-medium tracking-wide mb-6 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -56,17 +56,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
         </p>
 
         {/* Subtitle / Poetic Tagline */}
-        <p className="text-lg sm:text-2xl md:text-3xl font-serif text-slate-100 max-w-3xl mx-auto font-bengali-serif leading-relaxed mb-4">
+        <p className="text-lg sm:text-2xl md:text-3xl font-serif text-slate-100 font-bengali-serif leading-relaxed mb-4">
           {t.hero.subheading}
         </p>
 
         {/* Editorial Paragraph */}
-        <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
+        <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-10 font-normal">
           {t.hero.description}
         </p>
 
         {/* Action CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-md mx-auto">
+        <div className="flex flex-col sm:flex-row items-start gap-3.5">
           <button
             onClick={handleScrollToExplore}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-md bg-[#C62828] hover:bg-[#b71c1c] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-all active:scale-95 border border-white/15"
@@ -87,7 +87,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
 
       {/* Hero Bottom Bar: Live Bloom Info, Coordinates & Scroll Indicator */}
       <div className="relative z-20 border-t border-slate-800 bg-slate-950/80 backdrop-blur-md py-3.5 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-4 text-xs">
           {/* Coordinates */}
           <div className="flex items-center gap-2 text-slate-400">
             <MapPin className="w-3.5 h-3.5 text-rose-400" />
