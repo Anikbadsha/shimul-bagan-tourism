@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './locales/LanguageContext';
 import { Navbar } from './components/layout/Navbar';
@@ -21,21 +21,29 @@ import { CustomCursor } from './components/ui/CustomCursor';
 import { natureAudio } from './utils/audioSynth';
 import { useState } from 'react';
 
-// Admin imports
-import { AdminLayout } from './admin/components/AdminLayout';
-import { ProtectedRoute } from './admin/components/ProtectedRoute';
-import { AdminLogin } from './admin/pages/AdminLogin';
-import { Dashboard } from './admin/pages/Dashboard';
-import { InquiriesAdmin } from './admin/pages/InquiriesAdmin';
-import { TourPackagesAdmin } from './admin/pages/TourPackagesAdmin';
-import { HotelsAdmin } from './admin/pages/HotelsAdmin';
-import { GalleryAdmin } from './admin/pages/GalleryAdmin';
-import { BlogAdmin } from './admin/pages/BlogAdmin';
-import { FaqAdmin } from './admin/pages/FaqAdmin';
-import { CommunityAdmin } from './admin/pages/CommunityAdmin';
-import { FoodAdmin } from './admin/pages/FoodAdmin';
-import { DestinationsAdmin } from './admin/pages/DestinationsAdmin';
-import { AnalyticsAdmin } from './admin/pages/AnalyticsAdmin';
+// Lazy-loaded admin imports
+const AdminLayout = React.lazy(() => import('./admin/components/AdminLayout').then(m => ({ default: m.AdminLayout })));
+const ProtectedRoute = React.lazy(() => import('./admin/components/ProtectedRoute').then(m => ({ default: m.ProtectedRoute })));
+const AdminLogin = React.lazy(() => import('./admin/pages/AdminLogin').then(m => ({ default: m.AdminLogin })));
+const Dashboard = React.lazy(() => import('./admin/pages/Dashboard').then(m => ({ default: m.Dashboard })));
+const InquiriesAdmin = React.lazy(() => import('./admin/pages/InquiriesAdmin').then(m => ({ default: m.InquiriesAdmin })));
+const TourPackagesAdmin = React.lazy(() => import('./admin/pages/TourPackagesAdmin').then(m => ({ default: m.TourPackagesAdmin })));
+const HotelsAdmin = React.lazy(() => import('./admin/pages/HotelsAdmin').then(m => ({ default: m.HotelsAdmin })));
+const GalleryAdmin = React.lazy(() => import('./admin/pages/GalleryAdmin').then(m => ({ default: m.GalleryAdmin })));
+const BlogAdmin = React.lazy(() => import('./admin/pages/BlogAdmin').then(m => ({ default: m.BlogAdmin })));
+const FaqAdmin = React.lazy(() => import('./admin/pages/FaqAdmin').then(m => ({ default: m.FaqAdmin })));
+const CommunityAdmin = React.lazy(() => import('./admin/pages/CommunityAdmin').then(m => ({ default: m.CommunityAdmin })));
+const FoodAdmin = React.lazy(() => import('./admin/pages/FoodAdmin').then(m => ({ default: m.FoodAdmin })));
+const DestinationsAdmin = React.lazy(() => import('./admin/pages/DestinationsAdmin').then(m => ({ default: m.DestinationsAdmin })));
+const AnalyticsAdmin = React.lazy(() => import('./admin/pages/AnalyticsAdmin').then(m => ({ default: m.AnalyticsAdmin })));
+
+function AdminFallback() {
+  return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
 
 function PublicSite() {
   const [isTripPlannerOpen, setIsTripPlannerOpen] = useState(false);
@@ -97,28 +105,30 @@ export default function App() {
         <Route path="/" element={<PublicSite />} />
 
         {/* Admin login (no auth required) */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<Suspense fallback={<AdminFallback />}><AdminLogin /></Suspense>} />
 
         {/* Protected admin routes */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
-              <AdminLayout />
-            </ProtectedRoute>
+            <Suspense fallback={<AdminFallback />}>
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            </Suspense>
           }
         >
-          <Route index element={<Dashboard />} />
-          <Route path="inquiries" element={<InquiriesAdmin />} />
-          <Route path="tours" element={<TourPackagesAdmin />} />
-          <Route path="hotels" element={<HotelsAdmin />} />
-          <Route path="gallery" element={<GalleryAdmin />} />
-          <Route path="blog" element={<BlogAdmin />} />
-          <Route path="faq" element={<FaqAdmin />} />
-          <Route path="community" element={<CommunityAdmin />} />
-          <Route path="food" element={<FoodAdmin />} />
-          <Route path="destinations" element={<DestinationsAdmin />} />
-          <Route path="analytics" element={<AnalyticsAdmin />} />
+          <Route index element={<Suspense fallback={<AdminFallback />}><Dashboard /></Suspense>} />
+          <Route path="inquiries" element={<Suspense fallback={<AdminFallback />}><InquiriesAdmin /></Suspense>} />
+          <Route path="tours" element={<Suspense fallback={<AdminFallback />}><TourPackagesAdmin /></Suspense>} />
+          <Route path="hotels" element={<Suspense fallback={<AdminFallback />}><HotelsAdmin /></Suspense>} />
+          <Route path="gallery" element={<Suspense fallback={<AdminFallback />}><GalleryAdmin /></Suspense>} />
+          <Route path="blog" element={<Suspense fallback={<AdminFallback />}><BlogAdmin /></Suspense>} />
+          <Route path="faq" element={<Suspense fallback={<AdminFallback />}><FaqAdmin /></Suspense>} />
+          <Route path="community" element={<Suspense fallback={<AdminFallback />}><CommunityAdmin /></Suspense>} />
+          <Route path="food" element={<Suspense fallback={<AdminFallback />}><FoodAdmin /></Suspense>} />
+          <Route path="destinations" element={<Suspense fallback={<AdminFallback />}><DestinationsAdmin /></Suspense>} />
+          <Route path="analytics" element={<Suspense fallback={<AdminFallback />}><AnalyticsAdmin /></Suspense>} />
         </Route>
 
         {/* Catch-all */}
