@@ -1,6 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { supabase } from '../lib/supabase';
-import { Upload, X, Image as ImageIcon } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+import { Upload, X } from 'lucide-react';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+const serviceKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY as string;
+const supabaseAdmin = createClient(supabaseUrl, serviceKey);
 
 interface ImageUploadProps {
   value: string;
@@ -22,7 +26,7 @@ export function ImageUpload({ value, onChange, folder = 'uploads', label = 'Imag
     const ext = file.name.split('.').pop();
     const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-    const { error } = await supabase.storage.from('site-images').upload(path, file, {
+    const { error } = await supabaseAdmin.storage.from('site-images').upload(path, file, {
       contentType: file.type,
       upsert: false,
     });
@@ -31,7 +35,7 @@ export function ImageUpload({ value, onChange, folder = 'uploads', label = 'Imag
       console.error('Upload error:', error);
       alert('Upload failed: ' + error.message);
     } else {
-      const { data } = supabase.storage.from('site-images').getPublicUrl(path);
+      const { data } = supabaseAdmin.storage.from('site-images').getPublicUrl(path);
       if (data?.publicUrl) onChange(data.publicUrl);
     }
     setUploading(false);
