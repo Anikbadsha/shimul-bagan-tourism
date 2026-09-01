@@ -21,7 +21,7 @@ export const en = {
     title: 'SHIMUL BAGAN',
     titleEngSecondary: 'TAHIRPUR, SUNAMGANJ',
     subheading: 'A Red-Blossom Paradise beside the Jadukata River',
-    description: 'In early spring, over 3,000 crimson Bombax ceiba trees ignite across 100+ bighas into a sea of fiery red petals. Framed by turquoise waters and the Meghalaya mountains, it is nature’s grandest living canvas.',
+    description: 'In early spring, over 1,800 crimson Bombax ceiba trees ignite across 100+ bighas into a sea of fiery red petals. Framed by turquoise waters and the Meghalaya mountains, it is nature’s grandest living canvas.',
     ctaExplore: 'Explore Garden & Surroundings',
     ctaPlan: 'Plan Your Full Journey',
     bloomStatusTitle: 'Current Bloom & Conditions',

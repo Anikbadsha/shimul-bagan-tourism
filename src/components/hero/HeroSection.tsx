@@ -25,11 +25,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
         <img
           src={HeroBanner}
           alt="Shimul Bagan Crimson Blossom Canopy in Tahirpur Sunamganj"
-          className="w-full h-full object-cover object-center scale-105 filter brightness-[0.6] contrast-[1.1]"
+          className="w-full h-full object-cover object-center scale-105"
         />
-        {/* Layer 2: Atmosphere Vignette & Slate Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/80" />
-        <div className="absolute inset-0 bg-grid-pattern-dark opacity-30" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/80 via-slate-950/40 to-transparent" />
       </div>
 
       {/* Layer 3: Interactive 3D WebGL Petal Physics Field */}

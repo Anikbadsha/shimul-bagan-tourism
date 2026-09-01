@@ -14,6 +14,8 @@ RewriteRule ^ index.html [L]
   Header set X-XSS-Protection "1; mode=block"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'self'"
 </IfModule>
 
 # Enable gzip compression
@@ -31,4 +33,5 @@ RewriteRule ^ index.html [L]
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType application/font-woff2 "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
 </IfModule>

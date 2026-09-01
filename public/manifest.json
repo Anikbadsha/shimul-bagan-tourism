@@ -1,0 +1,21 @@
+{
+  "name": "Shimul Bagan — Tahirpur, Sunamganj",
+  "short_name": "Shimul Bagan",
+  "description": "Explore the red-blossom paradise beside the Jadukata River and Meghalaya hills.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#173A2B",
+  "theme_color": "#C62828",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
