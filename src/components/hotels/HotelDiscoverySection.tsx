@@ -66,6 +66,10 @@ export const HotelDiscoverySection: React.FC = () => {
                 <img
                   src={hotel.imageUrl}
                   alt={isBn ? hotel.nameBn : hotel.nameEn}
+                  width="320"
+                  height="208"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3 left-3 px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-[10px] font-bold text-white uppercase tracking-wider border border-slate-700">

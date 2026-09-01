@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Sparkles, Calendar, Droplets } from 'lucide-react';
-import { ShimulTree3DViewer } from '../three/ShimulTree3DViewer';
 import { useLanguage } from '../../locales/LanguageContext';
+
+const ShimulTree3DViewer = React.lazy(() => import('../three/ShimulTree3DViewer').then(m => ({ default: m.ShimulTree3DViewer })));
 
 export const FlowerSection: React.FC = () => {
   const { t, isBn } = useLanguage();
@@ -33,6 +34,10 @@ export const FlowerSection: React.FC = () => {
               <img
                 src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop"
                 alt="Bombax Ceiba Red Flower Bloom Closeup"
+                width="400"
+                height="288"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
@@ -72,7 +77,9 @@ export const FlowerSection: React.FC = () => {
 
           {/* Right Column: Interactive 3D Botanical Tree & Branch Viewer */}
           <div className="lg:col-span-7">
-            <ShimulTree3DViewer />
+            <Suspense fallback={<div className="w-full h-96 bg-slate-900 rounded-xl animate-pulse" />}>
+              <ShimulTree3DViewer />
+            </Suspense>
           </div>
         </div>
       </div>

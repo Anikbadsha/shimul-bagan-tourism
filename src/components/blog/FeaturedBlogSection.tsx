@@ -51,6 +51,10 @@ export const FeaturedBlogSection: React.FC = () => {
                 <img
                   src={story.coverImage}
                   alt={isBn ? story.titleBn : story.titleEn}
+                  width="400"
+                  height="208"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3.5 left-3.5 px-2.5 py-0.5 rounded-md bg-[#C62828] text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">

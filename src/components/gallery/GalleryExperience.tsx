@@ -91,8 +91,11 @@ export const GalleryExperience: React.FC = () => {
               <img
                 src={item.imageUrl}
                 alt={isBn ? item.titleBn : item.titleEn}
-                className="w-full h-full min-h-[240px] object-cover transition-transform duration-500 group-hover:scale-105"
+                width="400"
+                height="240"
                 loading="lazy"
+                decoding="async"
+                className="w-full h-full min-h-[240px] object-cover transition-transform duration-500 group-hover:scale-105"
               />
 
               {/* Gradient Overlay */}
@@ -158,6 +161,9 @@ export const GalleryExperience: React.FC = () => {
             <img
               src={activePhoto.imageUrl}
               alt={isBn ? activePhoto.titleBn : activePhoto.titleEn}
+              width="1024"
+              height="680"
+              decoding="async"
               className="max-h-[70vh] sm:max-h-[78vh] max-w-full object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-200"
             />
 

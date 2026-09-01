@@ -57,6 +57,10 @@ export const DestinationExplorer: React.FC = () => {
                   <img
                     src={dest.imageUrl}
                     alt={isBn ? dest.nameBn : dest.nameEn}
+                    width="400"
+                    height="208"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />

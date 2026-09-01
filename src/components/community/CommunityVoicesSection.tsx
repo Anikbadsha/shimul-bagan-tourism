@@ -40,6 +40,10 @@ export const CommunityVoicesSection: React.FC = () => {
                   <img
                     src={person.avatarUrl}
                     alt={isBn ? person.nameBn : person.nameEn}
+                    width="48"
+                    height="48"
+                    loading="lazy"
+                    decoding="async"
                     className="w-12 h-12 rounded-lg object-cover ring-1 ring-slate-200 shadow-2xs"
                   />
                   <div>

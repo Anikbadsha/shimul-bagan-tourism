@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ArrowDown, Compass, Sparkles, MapPin, Wind, Calendar } from 'lucide-react';
-import { Hero3DCanvas } from '../three/Hero3DCanvas';
 import { useLanguage } from '../../locales/LanguageContext';
-import HeroBanner from '../../assets/images/Hero_Banner.png';
+import HeroBanner from '../../assets/images/Hero_Banner.jpg';
+
+const Hero3DCanvas = React.lazy(() => import('../three/Hero3DCanvas').then(m => ({ default: m.Hero3DCanvas })));
 
 interface HeroSectionProps {
   onOpenTripPlanner: () => void;
@@ -25,13 +26,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
         <img
           src={HeroBanner}
           alt="Shimul Bagan Crimson Blossom Canopy in Tahirpur Sunamganj"
+          width="1920"
+          height="1080"
+          fetchpriority="high"
+          decoding="async"
           className="w-full h-full object-cover object-center scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/80 via-slate-950/40 to-transparent" />
       </div>
 
       {/* Layer 3: Interactive 3D WebGL Petal Physics Field */}
-      <Hero3DCanvas interactive={true} />
+      <Suspense fallback={null}>
+        <Hero3DCanvas interactive={true} />
+      </Suspense>
 
       {/* Top Margin Spacer */}
       <div className="pt-28 md:pt-36" />

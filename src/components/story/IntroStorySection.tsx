@@ -85,6 +85,10 @@ export const IntroStorySection: React.FC = () => {
               <img
                 src={joynalAbedinPhoto}
                 alt={isBn ? 'মরহুম আলহাজ্ব জয়নাল আবেদীন - শিমুল বাগানের স্বপ্নদ্রষ্টা ও রূপকার' : 'Late Alhaj Joynal Abedin - Founder of Shimul Bagan'}
+                width="224"
+                height="280"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
