@@ -114,12 +114,11 @@ export function InquiriesAdmin() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="grid grid-cols-3 gap-3 text-sm">
                 {[
                   ['Type', selected.inquiry_type],
                   ['Travel Date', selected.date],
                   ['Travelers', selected.guests],
-                  ['Package', selected.package_name || '—'],
                 ].map(([label, value]) => (
                   <div key={label} className="bg-slate-800/50 rounded-xl p-3">
                     <p className="text-slate-500 text-xs mb-0.5">{label}</p>
