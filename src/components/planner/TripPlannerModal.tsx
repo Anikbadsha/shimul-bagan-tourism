@@ -10,6 +10,17 @@ interface TripPlannerModalProps {
   preselectedPackage?: string;
 }
 
+const initialFormData: TripInquiryForm = {
+  name: '',
+  email: '',
+  phone: '',
+  inquiryType: 'tour',
+  travelDate: '',
+  travelersCount: '2',
+  selectedPackage: '',
+  message: ''
+};
+
 export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
   isOpen,
   onClose,
@@ -18,23 +29,56 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
   const { t, isBn } = useLanguage();
 
   const [formData, setFormData] = useState<TripInquiryForm>({
-    name: '',
-    email: '',
-    phone: '',
-    inquiryType: 'tour',
-    travelDate: '',
-    travelersCount: '2',
-    selectedPackage: preselectedPackage,
-    message: ''
+    ...initialFormData,
+    selectedPackage: preselectedPackage
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validatePhone = (phone: string): boolean => {
+    const cleaned = phone.replace(/[\s\-()]/g, '');
+    const bdPhoneRegex = /^(?:\+?880|0)1[3-9]\d{8}$/;
+    return bdPhoneRegex.test(cleaned);
+  };
+
+  const validate = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = isBn ? 'নাম আবশ্যক' : 'Name is required';
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = isBn ? 'ফোন নম্বর আবশ্যক' : 'Phone number is required';
+    } else if (!validatePhone(formData.phone)) {
+      newErrors.phone = isBn
+        ? 'সঠিক বাংলাদেশি ফোন নম্বর দিন (যেমন: 01712345678)'
+        : 'Enter a valid BD phone number (e.g. 01712345678)';
+    }
+
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = isBn ? 'সঠিক ইমেইল দিন' : 'Enter a valid email';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleClose = () => {
+    setIsSuccess(false);
+    setFormData({ ...initialFormData, selectedPackage: preselectedPackage });
+    setErrors({});
+    onClose();
+  };
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
+
     setIsSubmitting(true);
 
     try {
@@ -50,8 +94,8 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
       });
       setIsSubmitting(false);
       setIsSuccess(true);
+      setFormData({ ...initialFormData, selectedPackage: preselectedPackage });
     } catch (err) {
-      // Fallback to localStorage
       try {
         const existing = JSON.parse(localStorage.getItem('shimul_bagan_inquiries') || '[]');
         existing.push({ ...formData, submittedAt: new Date().toISOString() });
@@ -59,6 +103,7 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
       } catch {}
       setIsSubmitting(false);
       setIsSuccess(true);
+      setFormData({ ...initialFormData, selectedPackage: preselectedPackage });
     }
   };
 
@@ -67,7 +112,7 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
       <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative text-white my-auto">
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-5 right-5 p-2 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
           aria-label="Close Modal"
         >
@@ -90,10 +135,7 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
             </p>
 
             <button
-              onClick={() => {
-                setIsSuccess(false);
-                onClose();
-              }}
+              onClick={handleClose}
               className="mt-6 px-6 py-2.5 rounded-lg bg-white text-slate-900 font-bold text-xs hover:bg-slate-100 transition-all cursor-pointer shadow-xs"
             >
               {isBn ? 'ঠিক আছে' : 'Got it, Thanks!'}
@@ -106,7 +148,7 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
             <div className="mb-5 space-y-1">
               <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-slate-800 text-rose-400 text-xs font-semibold uppercase tracking-wider mb-2 border border-slate-700">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>{isBn ? 'অফিশিয়াল ট্যুর ও ভ্রমণ সহায়তা' : 'Official Travel Assistance'}</span>
+                <span>{isBn ? 'অফিশিয়াল ট্যুর ও ভ্রমণ সহায়তা' : 'Official Travel Assistance'}</span>
               </div>
               <h2 className="text-2xl font-bold font-bengali-serif">
                 {t.tripPlanner.title}
@@ -129,10 +171,16 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
                     type="text"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (errors.name) setErrors({ ...errors, name: '' });
+                    }}
                     placeholder={isBn ? 'আপনার নাম লিখুন' : 'e.g. Farhad Hossain'}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 text-xs"
+                    className={`w-full px-3 py-2 rounded-lg bg-slate-800/80 border text-white placeholder-slate-500 focus:outline-none text-xs ${
+                      errors.name ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-rose-500'
+                    }`}
                   />
+                  {errors.name && <p className="text-red-400 text-[11px] mt-1">{errors.name}</p>}
                 </div>
 
                 {/* Phone */}
@@ -145,10 +193,16 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
                     type="tel"
                     required
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder={isBn ? '০১৭XXXXXXXX' : '+880 17XXXXXXXX'}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 text-xs"
+                    onChange={(e) => {
+                      setFormData({ ...formData, phone: e.target.value });
+                      if (errors.phone) setErrors({ ...errors, phone: '' });
+                    }}
+                    placeholder="01712345678"
+                    className={`w-full px-3 py-2 rounded-lg bg-slate-800/80 border text-white placeholder-slate-500 focus:outline-none text-xs ${
+                      errors.phone ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-rose-500'
+                    }`}
                   />
+                  {errors.phone && <p className="text-red-400 text-[11px] mt-1">{errors.phone}</p>}
                 </div>
               </div>
 
@@ -162,10 +216,16 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
                   <input
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      if (errors.email) setErrors({ ...errors, email: '' });
+                    }}
                     placeholder="example@domain.com"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 text-xs"
+                    className={`w-full px-3 py-2 rounded-lg bg-slate-800/80 border text-white placeholder-slate-500 focus:outline-none text-xs ${
+                      errors.email ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-rose-500'
+                    }`}
                   />
+                  {errors.email && <p className="text-red-400 text-[11px] mt-1">{errors.email}</p>}
                 </div>
 
                 {/* Inquiry Type */}
