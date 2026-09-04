@@ -97,10 +97,10 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        guests: parseInt(formData.travelersCount) || 2,
-        date: formData.travelDate,
+        travel_date: formData.travelDate,
+        travelers_count: formData.travelersCount,
         inquiry_type: formData.inquiryType,
-        package_name: formData.selectedPackage || '',
+        selected_package: formData.selectedPackage || '',
         message: formData.message
       });
       setIsSubmitting(false);
@@ -109,7 +109,17 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
     } catch (err) {
       try {
         const existing = JSON.parse(localStorage.getItem('shimul_bagan_inquiries') || '[]');
-        existing.push({ ...formData, submittedAt: new Date().toISOString() });
+        existing.push({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          travel_date: formData.travelDate,
+          travelers_count: formData.travelersCount,
+          inquiry_type: formData.inquiryType,
+          selected_package: formData.selectedPackage || '',
+          message: formData.message,
+          submittedAt: new Date().toISOString()
+        });
         localStorage.setItem('shimul_bagan_inquiries', JSON.stringify(existing));
       } catch {}
       setIsSubmitting(false);
