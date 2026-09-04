@@ -181,9 +181,9 @@ export interface TripInquiryRow {
   email: string;
   phone: string;
   inquiry_type: string;
-  travel_date: string;
-  travelers_count: string;
-  selected_package: string | null;
+  date: string;
+  guests: number;
+  package_name: string | null;
   message: string;
   status: 'new' | 'read' | 'replied';
   created_at: string;

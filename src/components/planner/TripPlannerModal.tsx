@@ -97,10 +97,10 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        travel_date: formData.travelDate,
-        travelers_count: formData.travelersCount,
+        guests: parseInt(formData.travelersCount) || 2,
+        date: formData.travelDate,
         inquiry_type: formData.inquiryType,
-        selected_package: formData.selectedPackage || '',
+        package_name: formData.selectedPackage || '',
         message: formData.message
       });
       setIsSubmitting(false);
@@ -113,10 +113,10 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          travel_date: formData.travelDate,
-          travelers_count: formData.travelersCount,
+          guests: parseInt(formData.travelersCount) || 2,
+          date: formData.travelDate,
           inquiry_type: formData.inquiryType,
-          selected_package: formData.selectedPackage || '',
+          package_name: formData.selectedPackage || '',
           message: formData.message,
           submittedAt: new Date().toISOString()
         });

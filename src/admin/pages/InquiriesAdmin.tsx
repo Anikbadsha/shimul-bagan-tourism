@@ -117,9 +117,9 @@ export function InquiriesAdmin() {
               <div className="grid grid-cols-2 gap-3 text-sm">
                 {[
                   ['Type', selected.inquiry_type],
-                  ['Travel Date', selected.travel_date],
-                  ['Travelers', selected.travelers_count],
-                  ['Package', selected.selected_package || '—'],
+                  ['Travel Date', selected.date],
+                  ['Travelers', selected.guests],
+                  ['Package', selected.package_name || '—'],
                 ].map(([label, value]) => (
                   <div key={label} className="bg-slate-800/50 rounded-xl p-3">
                     <p className="text-slate-500 text-xs mb-0.5">{label}</p>
@@ -150,7 +150,7 @@ export function InquiriesAdmin() {
               </div>
 
               <a
-                href={`mailto:${selected.email}?subject=Re: Your inquiry about ${selected.selected_package || 'Shimul Bagan'}`}
+                href={`mailto:${selected.email}?subject=Re: Your inquiry about ${selected.package_name || 'Shimul Bagan'}`}
                 className="flex items-center justify-center gap-2 w-full py-3 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-sm font-medium transition-all"
               >
                 ✉️ Reply via Email
