@@ -62,6 +62,17 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
       newErrors.email = isBn ? 'সঠিক ইমেইল দিন' : 'Enter a valid email';
     }
 
+    if (!formData.travelDate) {
+      newErrors.travelDate = isBn ? 'ভ্রমণের তারিখ আবশ্যক' : 'Travel date is required';
+    }
+
+    const travelers = parseInt(formData.travelersCount);
+    if (!formData.travelersCount || isNaN(travelers) || travelers < 1) {
+      newErrors.travelersCount = isBn ? 'অন্তত ১ জন ভ্রমণকারী আবশ্যক' : 'At least 1 traveler required';
+    } else if (travelers > 50) {
+      newErrors.travelersCount = isBn ? 'সর্বোচ্চ ৫০ জন অনুমোদিত' : 'Maximum 50 travelers allowed';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -252,30 +263,44 @@ export const TripPlannerModal: React.FC<TripPlannerModalProps> = ({
                 <div>
                   <label className="block text-slate-300 font-medium mb-1 flex items-center gap-1.5 text-xs">
                     <Calendar className="w-3.5 h-3.5 text-rose-400" />
-                    <span>{t.tripPlanner.travelDateLabel}</span>
+                    <span>{t.tripPlanner.travelDateLabel} *</span>
                   </label>
                   <input
                     type="date"
+                    required
                     value={formData.travelDate}
-                    onChange={(e) => setFormData({ ...formData, travelDate: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-700 text-white focus:outline-none focus:border-rose-500 text-xs"
+                    onChange={(e) => {
+                      setFormData({ ...formData, travelDate: e.target.value });
+                      if (errors.travelDate) setErrors({ ...errors, travelDate: '' });
+                    }}
+                    className={`w-full px-3 py-2 rounded-lg bg-slate-800/80 border text-white focus:outline-none text-xs ${
+                      errors.travelDate ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-rose-500'
+                    }`}
                   />
+                  {errors.travelDate && <p className="text-red-400 text-[11px] mt-1">{errors.travelDate}</p>}
                 </div>
 
                 {/* Number of Travelers */}
                 <div>
                   <label className="block text-slate-300 font-medium mb-1 flex items-center gap-1.5 text-xs">
                     <Users className="w-3.5 h-3.5 text-purple-400" />
-                    <span>{t.tripPlanner.travelersLabel}</span>
+                    <span>{t.tripPlanner.travelersLabel} *</span>
                   </label>
                   <input
                     type="number"
                     min="1"
                     max="50"
+                    required
                     value={formData.travelersCount}
-                    onChange={(e) => setFormData({ ...formData, travelersCount: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-700 text-white focus:outline-none focus:border-rose-500 text-xs"
+                    onChange={(e) => {
+                      setFormData({ ...formData, travelersCount: e.target.value });
+                      if (errors.travelersCount) setErrors({ ...errors, travelersCount: '' });
+                    }}
+                    className={`w-full px-3 py-2 rounded-lg bg-slate-800/80 border text-white focus:outline-none text-xs ${
+                      errors.travelersCount ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-rose-500'
+                    }`}
                   />
+                  {errors.travelersCount && <p className="text-red-400 text-[11px] mt-1">{errors.travelersCount}</p>}
                 </div>
               </div>
 
