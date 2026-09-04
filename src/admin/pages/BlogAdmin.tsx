@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { supabase, BlogPostRow } from '../lib/supabase';
 import { ImageUpload } from "../components/ImageUpload";
 
@@ -13,7 +13,7 @@ export function BlogAdmin() {
   const [editing, setEditing] = useState<BlogPostRow | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
-  const { register, handleSubmit, reset, setValue } = useForm<FormData>();
+  const { register, handleSubmit, reset, setValue, control } = useForm<FormData>();
 
   const fetchItems = async () => {
     const { data } = await supabase.from('blog_posts').select('*').order('created_at', { ascending: false });
@@ -97,7 +97,7 @@ export function BlogAdmin() {
                   ['author_bn', 'Author (Bengali)'], ['author_role_en', 'Author Role (English)'],
                   ['author_role_bn', 'Author Role (Bengali)'], ['published_date_en', 'Published Date (English)'],
                   ['published_date_bn', 'Published Date (Bengali)'], ['read_time_en', 'Read Time (English)'],
-                  ['read_time_bn', 'Read Time (Bengali)'], ['cover_image', 'Cover Image URL'],
+                  ['read_time_bn', 'Read Time (Bengali)'],
                 ].map(([name, label]) => (
                   <div key={name}>
                     <label className="block text-xs text-slate-400 mb-1">{label}</label>
@@ -105,6 +105,13 @@ export function BlogAdmin() {
                   </div>
                 ))}
               </div>
+              <Controller
+                control={control}
+                name="cover_image"
+                render={({ field }) => (
+                  <ImageUpload value={field.value || ''} onChange={field.onChange} folder="blog" label="Cover Image" />
+                )}
+              />
               {[
                 ['excerpt_en', 'Excerpt (English)', 2],
                 ['excerpt_bn', 'Excerpt (Bengali)', 2],

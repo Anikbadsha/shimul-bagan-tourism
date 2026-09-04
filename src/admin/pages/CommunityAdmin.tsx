@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { supabase, CommunityStoryRow } from '../lib/supabase';
 import { ImageUpload } from "../components/ImageUpload";
 
@@ -11,7 +11,7 @@ export function CommunityAdmin() {
   const [editing, setEditing] = useState<CommunityStoryRow | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
-  const { register, handleSubmit, reset } = useForm<FormData>();
+  const { register, handleSubmit, reset, control } = useForm<FormData>();
 
   const fetchItems = async () => {
     const { data } = await supabase.from('community_stories').select('*').order('created_at', { ascending: false });
@@ -88,7 +88,6 @@ export function CommunityAdmin() {
                   ['role_en', 'Role (English)'], ['role_bn', 'Role (Bengali)'],
                   ['years_of_experience_en', 'Experience (English)'], ['years_of_experience_bn', 'Experience (Bengali)'],
                   ['location_en', 'Location (English)'], ['location_bn', 'Location (Bengali)'],
-                  ['avatar_url', 'Avatar Image URL'],
                 ].map(([name, label]) => (
                   <div key={name}>
                     <label className="block text-xs text-slate-400 mb-1">{label}</label>
@@ -96,6 +95,13 @@ export function CommunityAdmin() {
                   </div>
                 ))}
               </div>
+              <Controller
+                control={control}
+                name="avatar_url"
+                render={({ field }) => (
+                  <ImageUpload value={field.value || ''} onChange={field.onChange} folder="community" label="Avatar Image" />
+                )}
+              />
               {[
                 ['quote_en', 'Quote (English)', 2], ['quote_bn', 'Quote (Bengali)', 2],
                 ['story_en', 'Full Story (English)', 4], ['story_bn', 'Full Story (Bengali)', 4],
