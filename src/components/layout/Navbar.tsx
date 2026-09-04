@@ -61,11 +61,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            <div className={`w-9 h-9 rounded-lg flex items-center justify-center font-bold font-bengali-serif text-lg shadow-sm transition-transform duration-200 group-hover:scale-105 ${
-              scrolled ? 'bg-slate-900 text-white' : 'bg-[#C62828] text-white'
-            }`}>
-              <span>শ</span>
-            </div>
+            <img
+              src="/logo.png"
+              alt="Shimul Bagan"
+              className="w-10 h-10 rounded-full object-cover shadow-sm transition-transform duration-200 group-hover:scale-105"
+            />
             <div className="hidden sm:block">
               <span className={`text-base md:text-lg font-extrabold tracking-tight block font-bengali-serif leading-none ${
                 scrolled ? 'text-slate-900' : 'text-white'
