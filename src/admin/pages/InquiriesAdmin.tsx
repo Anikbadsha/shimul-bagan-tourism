@@ -149,12 +149,21 @@ export function InquiriesAdmin() {
                 ))}
               </div>
 
-              <a
-                href={`mailto:${selected.email}?subject=Re: Your inquiry about ${selected.package_name || 'Shimul Bagan'}`}
-                className="flex items-center justify-center gap-2 w-full py-3 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-sm font-medium transition-all"
-              >
-                ✉️ Reply via Email
-              </a>
+              <div className="flex gap-3">
+                <a
+                  href={`mailto:${selected.email}?subject=Re: Your inquiry about ${selected.package_name || 'Shimul Bagan'}`}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-sm font-medium transition-all"
+                >
+                  ✉️ Reply via Email
+                </a>
+                <a
+                  href="#"
+                  onClick={(e) => e.preventDefault()}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-medium transition-all cursor-not-allowed opacity-60"
+                >
+                  💬 Reply via WhatsApp
+                </a>
+              </div>
             </div>
           ) : (
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center">
