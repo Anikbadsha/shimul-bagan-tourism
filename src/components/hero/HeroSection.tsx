@@ -61,7 +61,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
         </p>
 
         {/* Subtitle / Poetic Tagline */}
-        <p className="text-lg sm:text-2xl md:text-3xl font-serif text-slate-100 font-bengali-serif leading-relaxed mb-4">
+        <p className="text-lg sm:text-2xl md:text-3xl font-serif text-slate-100 font-bengali-serif leading-relaxed mb-4 whitespace-nowrap">
           {t.hero.subheading}
         </p>
 
