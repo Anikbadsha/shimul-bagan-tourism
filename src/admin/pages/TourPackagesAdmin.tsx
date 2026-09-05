@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { supabase, TourPackageRow } from '../lib/supabase';
+import { ImageUpload } from "../components/ImageUpload";
 
 type FormData = Omit<TourPackageRow, 'created_at' | 'updated_at'>;
 
@@ -22,7 +23,7 @@ export function TourPackagesAdmin() {
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const { register, handleSubmit, reset, setValue } = useForm<FormData>();
+  const { register, handleSubmit, reset, setValue, control } = useForm<FormData>();
 
   const fetchItems = async () => {
     const { data } = await supabase.from('tour_packages').select('*').order('created_at', { ascending: false });
@@ -147,7 +148,6 @@ export function TourPackagesAdmin() {
                   ['duration_bn', 'Duration (Bengali)', true],
                   ['price_en', 'Price (English)', true],
                   ['price_bn', 'Price (Bengali)', true],
-                  ['image_url', 'Image URL', false],
                   ['category', 'Category', false],
                 ].map(([name, label, required]) => (
                   <div key={name as string}>
@@ -159,6 +159,13 @@ export function TourPackagesAdmin() {
                   </div>
                 ))}
               </div>
+              <Controller
+                control={control}
+                name="image_url"
+                render={({ field }) => (
+                  <ImageUpload value={field.value || ''} onChange={field.onChange} folder="tours" label="Tour Package Image" />
+                )}
+              />
 
               {/* Array fields */}
               {[

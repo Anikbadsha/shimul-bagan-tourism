@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { supabase, DestinationRow } from '../lib/supabase';
 import { ImageUpload } from "../components/ImageUpload";
 
@@ -15,7 +15,7 @@ export function DestinationsAdmin() {
   const [editing, setEditing] = useState<DestinationRow | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
-  const { register, handleSubmit, reset, setValue } = useForm<FormData>();
+  const { register, handleSubmit, reset, setValue, control } = useForm<FormData>();
 
   const fetchItems = async () => {
     const { data } = await supabase.from('destinations').select('*').order('created_at', { ascending: false });
@@ -105,7 +105,7 @@ export function DestinationsAdmin() {
                 {[
                   ['name_en', 'Name (English)'], ['name_bn', 'Name (Bengali)'],
                   ['slug', 'Slug'], ['subtitle_en', 'Subtitle (English)'],
-                  ['subtitle_bn', 'Subtitle (Bengali)'], ['image_url', 'Image URL'],
+                  ['subtitle_bn', 'Subtitle (Bengali)'],
                   ['distance_from_garden_en', 'Distance (English)'], ['distance_from_garden_bn', 'Distance (Bengali)'],
                   ['best_time_to_visit_en', 'Best Time (English)'], ['best_time_to_visit_bn', 'Best Time (Bengali)'],
                 ].map(([name, label]) => (
@@ -121,6 +121,13 @@ export function DestinationsAdmin() {
                   </select>
                 </div>
               </div>
+              <Controller
+                control={control}
+                name="image_url"
+                render={({ field }) => (
+                  <ImageUpload value={field.value || ''} onChange={field.onChange} folder="destinations" label="Destination Image" />
+                )}
+              />
 
               {[
                 ['description_en', 'Description (English)', 3], ['description_bn', 'Description (Bengali)', 3],

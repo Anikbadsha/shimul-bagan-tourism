@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { supabase, HotelRow } from '../lib/supabase';
 import { ImageUpload } from "../components/ImageUpload";
 
@@ -13,7 +13,7 @@ export function HotelsAdmin() {
   const [editing, setEditing] = useState<HotelRow | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
-  const { register, handleSubmit, reset, setValue } = useForm<FormData>();
+  const { register, handleSubmit, reset, setValue, control } = useForm<FormData>();
 
   const fetchItems = async () => {
     const { data } = await supabase.from('hotels').select('*').order('created_at', { ascending: false });
@@ -99,17 +99,30 @@ export function HotelsAdmin() {
                   ['distance_bn', 'Distance (Bengali)', 'text'],
                   ['price_en', 'Price (English)', 'text'],
                   ['price_bn', 'Price (Bengali)', 'text'],
-                  ['image_url', 'Image URL', 'url'],
                   ['rating', 'Rating (1-5)', 'number'],
                   ['reviews', 'Reviews', 'number'],
                   ['phone', 'Phone', 'text'],
                 ].map(([name, label, type]) => (
                   <div key={name as string}>
                     <label className="block text-xs text-slate-400 mb-1">{label as string}</label>
-                    <input {...register(name as keyof FormData)} type={type as string} step={type === 'number' ? '0.1' : undefined} min={type === 'number' ? '1' : undefined} max={type === 'number' ? '5' : undefined} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500" />
+                    <input
+                      {...register(name as keyof FormData)}
+                      type={type as string}
+                      step={name === 'rating' ? '0.1' : name === 'reviews' ? '1' : undefined}
+                      min={name === 'rating' ? '1' : name === 'reviews' ? '0' : undefined}
+                      max={name === 'rating' ? '5' : undefined}
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-rose-500"
+                    />
                   </div>
                 ))}
               </div>
+              <Controller
+                control={control}
+                name="image_url"
+                render={({ field }) => (
+                  <ImageUpload value={field.value || ''} onChange={field.onChange} folder="hotels" label="Hotel Image" />
+                )}
+              />
               {[
                 ['amenities_en', 'Amenities (English, one per line)'],
                 ['amenities_bn', 'Amenities (Bengali, one per line)'],
