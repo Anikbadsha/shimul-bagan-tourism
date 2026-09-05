@@ -123,7 +123,7 @@ export const IntroStorySection: React.FC = () => {
             <p className="text-sm text-slate-300 leading-relaxed font-light">
               {isBn
                 ? 'অনাবাদী এক ধু-ধু বালুচরে নিজ খরচে ও ভালোবাসায় তিন সহস্রাধিক শিমুল চারা রোপণের মাধ্যমে যিনি গড়ে তুলেছিলেন এক অপরূপ প্রাকৃতিক বিস্ময়। বাণিজ্যিক লাভের আশা না করে কেবল প্রকৃতির প্রতি অসীম প্রেম ও মানুষের কল্যাণে তাঁর সেই অদম্য দূরদর্শিতার কারণে আজ তাহিরপুর সারা বিশ্বের ভ্রমণপিপাসুদের এক স্বপ্নের ঠিকানা।'
-                : 'Through selfless personal investment and an enduring devotion to nature, he hand-planted over 3,000 crimson silk-cotton saplings on a barren sandy riverbed along the Jadukata. Today, his vision stands as Bangladesh’s largest red blossom sanctuary, empowering the local community and mesmerizing travelers.'}
+                : 'Through selfless personal investment and an enduring devotion to nature, he hand-planted over 1,800 crimson silk-cotton saplings on a barren sandy riverbed along the Jadukata. Today, his vision stands as Bangladesh’s largest red blossom sanctuary, empowering the local community and mesmerizing travelers.'}
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">

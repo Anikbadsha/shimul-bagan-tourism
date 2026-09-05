@@ -9,7 +9,7 @@ export const destinationsData: Destination[] = [
     subtitleBn: 'যাদুকাটা নদীর কোল ঘেঁষে দেশের বৃহত্তম রক্তিম শিমুল বন',
     subtitleEn: 'The Largest Crimson Red Silk Cotton Forest of Bangladesh',
     descriptionBn: 'সুনামগঞ্জ জেলার তাহিরপুর উপজেলার বাদাঘাট ইউনিয়নের মানিগাঁও গ্রামে অবস্থিত দেশের সবচেয়ে বড় শিমul বাগান। যাদুকাটা নদীর তীরে প্রায় ১০০ বিঘারও বেশি জমিতে তিন সহস্রাধিক শিমুল গাছ সারিবদ্ধভাবে রোপণ করা হয়েছে। বসন্তকালে যখন গাছগুলোতে রক্তিম ফুল ফোটে, তখন পুরো এলাকা এক লাল মায়াবী স্বর্গরাজ্যে পরিণত হয়।',
-    descriptionEn: 'Located at Manigaon village in Tahirpur, Sunamganj along the banks of the pristine Jadukata River, Shimul Bagan covers over 100 bighas of land symmetrically planted with more than 3,000 red silk cotton trees. In early spring, the entire grove bursts into an ocean of blazing scarlet blossoms.',
+    descriptionEn: 'Located at Manigaon village in Tahirpur, Sunamganj along the banks of the pristine Jadukata River, Shimul Bagan covers over 100 bighas of land symmetrically planted with more than 1,800 red silk cotton trees. In early spring, the entire grove bursts into an ocean of blazing scarlet blossoms.',
     historyBn: '২০০২ সালে স্থানীয় বৃক্ষপ্রেমী মরহুম আলহাজ্ব জয়নাল আবেদীন নিজস্ব জমিতে সম্পূর্ণ ব্যক্তিগত উদ্যোগে ও ভালোবাসায় এই বিশাল বাগান প্রতিষ্ঠা করেন। পরবর্তীতে তাঁর পুত্র ও পরিবার বাগানটির যত্ন ও রক্ষণাবেক্ষণ করে আসছেন।',
     historyEn: 'Established in 2002 by the late visionary Alhaj Joynal Abedin on his personal land out of sheer love for nature. Today, his family continues to preserve this magnificent red canopy for travelers across the globe.',
     category: 'garden',
@@ -30,7 +30,7 @@ export const destinationsData: Destination[] = [
       'ফটোগ্রাফি ও ড্রোন শটের জন্য অনন্য স্থান'
     ],
     highlightsEn: [
-      'Over 3,000 symmetrically aligned mature Shimul trees',
+      'Over 1,800 symmetrically aligned mature Shimul trees',
       'Vibrant carpets of fallen scarlet petals across the ground',
       'Panoramic backdrop of the turquoise Jadukata & Meghalaya hills',
       'World-class photography and cinematic drone perspectives'

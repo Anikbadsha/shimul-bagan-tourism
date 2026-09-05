@@ -18,7 +18,7 @@ export const storiesData: BlogPost[] = [
     contentEn: [
       'Late Alhaj Joynal Abedin was a respected community visionary and devoted environmentalist from Badaghat in Tahirpur, Sunamganj.',
       'In early 2002, looking at over 100 bighas of fallow sandy land along the Jadukata River in Manigaon village, he envisioned creating a lasting natural legacy purely out of deep love for nature rather than commercial gain.',
-      'With meticulous mathematical precision, he planted over 3,000 crimson Bombax ceiba saplings in neat, parallel geometric grids. Over years of diligent nurturing, those saplings matured into the awe-inspiring red cathedral that captivates travelers today.',
+      'With meticulous mathematical precision, he planted over 1,800 crimson Bombax ceiba saplings in neat, parallel geometric grids. Over years of diligent nurturing, those saplings matured into the awe-inspiring red cathedral that captivates travelers today.',
       'His vision has profoundly empowered the local economy, providing livelihoods to hundreds of river boatmen, motorcycle guides, small tea stall owners, and hospitality hosts across Tahirpur.'
     ],
     authorBn: 'তাহিরপুর হেরিটেজ ট্রাস্ট',
