@@ -66,13 +66,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               alt="Shimul Bagan"
               className="w-10 h-10 rounded-full object-cover shadow-sm transition-transform duration-200 group-hover:scale-105"
             />
-            <div className="hidden sm:block">
-              <span className={`text-base md:text-lg font-extrabold tracking-tight block font-bengali-serif leading-none ${
+            <div className="hidden sm:block whitespace-nowrap">
+              <span className={`text-sm md:text-base font-extrabold tracking-tight block leading-none ${
                 scrolled ? 'text-slate-900' : 'text-white'
               }`}>
                 {t.nav.brand}
               </span>
-              <span className={`text-[10px] uppercase font-bold tracking-widest block mt-0.5 ${
+              <span className={`text-[9px] uppercase font-bold tracking-widest block mt-0.5 ${
                 scrolled ? 'text-slate-500' : 'text-slate-300'
               }`}>
                 {t.nav.brandSub}
