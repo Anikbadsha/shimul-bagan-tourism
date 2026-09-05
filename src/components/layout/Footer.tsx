@@ -17,9 +17,11 @@ export const Footer: React.FC = () => {
           {/* Brand Col (5 Cols) */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-[#C62828] flex items-center justify-center text-white font-bold font-bengali-serif text-lg shadow-xs">
-                শ
-              </div>
+              <img
+                src="/logo.png"
+                alt="Shimul Bagan"
+                className="w-10 h-10 rounded-full object-cover shadow-xs"
+              />
               <div>
                 <h3 className="text-lg font-bold font-bengali-serif text-white leading-none">
                   {t.nav.brand}
