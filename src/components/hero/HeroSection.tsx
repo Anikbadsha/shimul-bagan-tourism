@@ -53,7 +53,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenTripPlanner }) =
         </div>
 
         {/* Display Typography */}
-        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tight font-bengali-serif leading-none text-white drop-shadow-sm">
+        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tight font-bengali-serif leading-none text-white drop-shadow-sm whitespace-nowrap">
           {t.hero.title}
         </h1>
         <p className="text-xs sm:text-sm md:text-base font-bold tracking-[0.25em] text-slate-300 uppercase mt-3 mb-6 font-modern">
